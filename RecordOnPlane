@@ -1,0 +1,38 @@
+program RecordOnPlane;
+uses crt;
+
+type point = record
+	x, y: real;
+end;
+
+var coordinate : array [1..20] of point;
+
+function PointCount( var coordinate:point):integer;
+var n:integer;
+begin
+	n := 0;
+	repeat
+		inc(n);
+		readln(coordinate[n].x, coordinate[n].y);
+	until (coordinate[n].x = 0) and (coordinate[n].y = 0);
+	PointCount:=n;
+end;
+
+Procedure PrintPoints(Points: integer);
+var i: integer;
+begin
+	for i=1 to Points do begin
+		writeln(coordinate[n].x, coordinate[n].y);
+	end;
+end;
+
+var coordinate : array [1..20] of point;
+Points: integer;
+
+begin
+	writeln('Please enter coordinates (x, y)');
+	writeln('Enter (0, 0) to stop');
+	Points  := PointCount(coordinate);
+	PrintPoints(Points);
+end.
+
