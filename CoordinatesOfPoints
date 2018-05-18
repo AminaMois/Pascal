@@ -1,0 +1,43 @@
+program PointRecord;
+uses crt; 
+
+{
+This program stores data of manually entered coordinates 
+(x, y) of points in a record type identificator "point".
+Then program displays entered coordinates of points.
+}
+
+{
+Elements of a record type identificator "point"  are fields
+"x" and "y".
+}
+
+type point = record
+    x, y: real;
+end;
+{
+coordinates - variable of a record type
+}
+var coordinates: array [1..20] of point;
+	n, i:byte;
+
+begin
+	writeln('This program reads manual input of coordinates.');
+	writeln('Please enter (x, y) coordinates.');
+	writeln('Enter (0, 0) to stop.');
+	n:=0;
+	repeat
+		with coordinates[n] do begin
+			inc(n);
+			readln(coordinates[n].x, coordinates[n].y);
+		end;
+	until (coordinates[n].x=0) and (coordinates[n].y=0);
+	if (coordinates[n].x=0) and (coordinates[n].y=0) then begin
+		writeln('Coordinate reading is stopped. ');
+		writeln('You entered (0, 0).');
+	end;
+	Writeln('The coordinates of points you entered are:');
+	for i:=1 to n do begin
+		writeln(coordinates[i].x:4,' , ',coordinates[i].y:4);
+	end;
+end.
