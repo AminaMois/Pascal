@@ -1,0 +1,104 @@
+{
+	Program Phonebook creates file with phonebook records 
+of manually entered contacts data.
+}
+
+program PhonebookRecord;
+uses crt;
+
+{
+	Phonebook is the name of a record type. "name" and "PhoneNumber"
+are the fields of the record.
+}
+
+type
+	Phonebook = record
+		Name	    : string[20];
+		PhoneNumber : string[20];
+	end;
+
+var f: file of Phonebook;
+
+
+
+{
+	Procedure CreateContactList creates new PhonebookOfContacts.dat file with
+the list of contacts.
+	Procedure CreateContactList reads the manual input of the list
+of contacts.
+	Procedure CreateContactList saves information about contacts in the
+file PhonebookOfContacts.dat.
+}
+{
+	No parameters, because no data from the main body is 
+used in the procedure CreateContactList. No data var parameter, 
+because no value to change in the main body. 
+}
+	
+Procedure CreateContactList();
+var key : char;
+var Contact:Phonebook;
+begin
+	assign(f,'PhonebookOfContacts.dat');
+	rewrite(f);
+	repeat
+		key := readkey;
+		if key=#27 then begin
+			break; //Contact input is stopped when pressing ESC
+		end;
+		Write('Name:');
+		Readln(Contact.Name);
+		Write('Phone number:');
+		Readln(Contact.PhoneNumber);
+		write(f,Contact);
+	until key = #27; {ESC}
+	close(f);{ Flushes contents of buffer to disk,
+              closes the file. Omitting this may
+              cause data NOT to be written to disk.}
+end;
+
+{
+	Procedure PrintPhoneBook writes the content of file from
+PhonebookOfContacts.dat
+}
+{
+	No parameters, because no data from the main body is 
+used in the procedure CreateContactList. No data var parameter, 
+because no value to change in the main body. 
+}
+
+Procedure PrintPhoneBook();
+var Contact: Phonebook;
+begin
+	reset(f);
+	while not(eof(f)) do begin
+		read (f, Contact);
+		Writeln(Contact.name:15, Contact.PhoneNumber:15);
+	end;
+	close(f);
+end;
+
+{
+	In the main body 1)Contacts are saved in the file PhonebookOfContacts.txt
+						(procedure CreateContactList()).
+					 2)The list with created and saved contacts is printed out 
+						on the screen (procedure PrintPhoneBook()).
+}
+
+
+	
+BEGIN
+	Writeln('This program creates a phonebook of your contacts.');
+	Writeln('Please add data of new contacts. Press <ESC> to stop.');
+	CreateContactList();
+	Writeln;
+	Writeln('Phonebook is complete!');
+	textcolor(white);
+	Writeln;
+	Writeln('CONTACT LIST:');
+	Writeln;
+	Writeln;
+	Writeln('Name':15, 'Phone number':15);
+	Writeln('----------':15, '------------':15);
+	PrintPhoneBook();
+END.	
