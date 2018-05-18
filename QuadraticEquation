@@ -1,0 +1,102 @@
+program QuadraticEquation;
+uses crt;
+
+//this program finds the roots of a manually 
+//generated quadratic equation.
+
+//procedure ReadInteger detects, whether the manually entered
+//content is an integer.
+//i - manually entered content to be verified
+
+procedure ReadInteger(var i:real);
+var s:string;
+k, code:integer;
+begin
+	repeat
+		readln(s);
+		val(s, k, code);//using procedure val: if the string s contains ONLY numbers
+		if code=0 then begin//then code=0
+			i:=k;//and the entered content turns into the integer - value k
+		end else begin
+			writeln('You did not enter number. Please try again.');
+			writeln('The number is: ');
+		end;
+	until code=0;
+end;
+
+
+//function FindRoots finds the roots of a*x*x+b*x+c=0 equation
+//a, b, c are the coefficients of the equation, 
+//x1 and x2 are the roots
+//function returns:
+//0 - if there are no roots
+//1 - if there is 1 root for the equation
+//2 - if there are 2 roots for the equation
+//3 - if there is infinite numbers of roots
+
+function FindRoots(a,b,c:real; var x1:real; var x2: real):integer;
+var d :real;
+begin
+	if a=0 then begin//0*x*x + b*x + c = 0
+		if b=0 then begin//0*x*x + 0*x + c = 0
+			if c=0 then begin//0*x*x + 0*x + 0 = 0
+				FindRoots:=3;
+			end else begin
+				FindRoots:=0;
+			end;
+		end else begin
+			x1:=-c/b;
+			x2:=x1;
+			FindRoots:=1;
+		end;
+	end else begin
+		d:=b*b-4*a*c;
+		if d<0 then begin
+			FindRoots:=0;
+		end else if d=0 then begin
+			x1:=-b/2/a;
+			FindRoots:=1;
+		end else if d>0 then begin
+			x1:=(-b-sqrt(d))/2/a;
+			x2:=(-b+sqrt(d))/2/a;
+			FindRoots:=2;
+		end;
+	end;
+end;
+
+ 
+
+var a, b, c, x1, x2:real;
+	NumberOfRoots: integer;
+
+begin
+	clrscr;
+	NumberOfRoots:=0;
+	a:=0;
+	b:=0;
+	c:=0;
+	x1:=0;
+	x2:=0;
+	WriteLn ('This program finds the roots of a manually ');
+	WriteLn ('generated quadratic equation a*x*x + b*x + c = 0.');
+	WriteLn ('Please enter the coefficient a=');
+	ReadInteger(a);
+	WriteLn ('Please enter the coefficient b=');
+	ReadInteger(b);
+	WriteLn ('Please enter the coefficient c=');
+	ReadInteger(c);
+	WriteLn ('The equation is:  ',a:0:0,'*x*x + (',b:0:0,')*x + (',c:0:0,') = 0');
+	NumberOfRoots:=FindRoots(a,b,c,x1,x2);
+	if NumberOfRoots=0 then begin
+		WriteLn ('No roots for this equation.');
+	end else if NumberOfRoots=1 then begin
+		WriteLn ('One solution for this equation. Root ');
+		WriteLn ('x1 = x2 =',x1:0:5);
+	end else if NumberOfRoots=2 then begin
+		WriteLn ('Two solutions for this equation. Roots ');
+		WriteLn ('x1 = ',x1:0:2,'  and  x2 = ',x2:0:2);
+	end else if NumberOfRoots=3 then begin
+		WriteLn ('Infinite numbers of solution for this equation.');
+	end;
+	ReadLn;
+end.
